@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/wmzb-security.iml" filepath="$PROJECT_DIR$/wmzb-security.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wmzb-security-app/wmzb-security-app.iml" filepath="$PROJECT_DIR$/wmzb-security-app/wmzb-security-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wmzb-security-borowser/wmzb-security-borowser.iml" filepath="$PROJECT_DIR$/wmzb-security-borowser/wmzb-security-borowser.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wmzb-security-core/wmzb-security-core.iml" filepath="$PROJECT_DIR$/wmzb-security-core/wmzb-security-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/wmzb-security-demo/wmzb-security-demo.iml" filepath="$PROJECT_DIR$/wmzb-security-demo/wmzb-security-demo.iml" />
+    </modules>
+  </component>
+</project>
