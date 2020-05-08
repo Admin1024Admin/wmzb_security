@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.l024.wmzbsecuritycore.mapper.UserMapper">
+
+    <resultMap id="resultUserMap" type="user">
+
+    </resultMap>
+    <sql id="userWhere">
+        <where>
+            <if test="user.uId!=null and user.uId!=0">
+                and u_id = #{user.uId}
+            </if>
+            <if test="user.userName!=null and user.userName!=''">
+                and user_name = #{user.userName}
+            </if>
+            <if test="user.name!=null and user.name!=''">
+                and name = #{user.name}
+            </if>
+            <if test="user.roleId!=null and user.roleId!=0">
+                and role_id = #{user.roleId}
+            </if>
+            <if test="user.lock!=null and user.lock!=0">
+                and lock = #{user.lock}
+            </if>
+            <if test="user.enable!=null and user.enable!=0">
+                and enable = #{user.enable}
+            </if>
+            <if test="user.expired!=null and user.expired!=0">
+                and expired = #{user.expired}
+            </if>
+        </where>
+    </sql>
+<!--    字段-->
+    <select id="queryUserAll" resultType="user">
+        select * from user
+        <include refid="userWhere"></include>
+    </select>
+
+<!--   查询用户所有角色以及权限-->
+    <select id="getUserRoleAndPermission" resultType="user">
+        select * from permission p
+            inner join
+            (select * from user u inner JOIN role r on u.role_id=r.r_id
+                <include refid="userWhere"></include>
+            ) a
+            on a.permission_id = p.p_id
+    </select>
+</mapper>

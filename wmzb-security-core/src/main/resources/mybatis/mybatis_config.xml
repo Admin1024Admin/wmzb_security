@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+    <configuration>
+        <settings>
+            <!--关闭缓存-->
+<!--            <setting name="cacheEnable" value="false"/>-->
+            <!-- 控制台打印sql语句 -->
+            <setting name="logImpl" value="STDOUT_LOGGING"/>
+            <!-- 是否开启自动驼峰命名规则，即从a_example到aExample的映射 -->
+            <setting name="mapUnderscoreToCamelCase" value="true"/>
+            <!-- 允许JDBC自动生成主键，需要驱动兼容。如果设置为true，则这个设置强制使用自动生成主键，尽管一些驱动不能兼容但仍能正常工作 -->
+            <setting name="useGeneratedKeys" value="true"/>
+            <!-- 配置默认的执行器：SIMPLE是普通的执行器；REUSE会重用预处理语句；BATCH会重用语句并执行批量更新 -->
+            <setting name="defaultExecutorType" value="REUSE" />
+            <!--设置超时时间：事务超时是时间，它决定驱动等待数据库响应的秒数,任何正整数-->
+            <setting name="defaultStatementTimeout" value="25"/>
+        </settings>
+<!--        设置别名-->
+        <typeAliases>
+            <typeAlias type="com.l024.wmzbsecuritycore.model.user.UserModel" alias="user"/>
+        </typeAliases>
+        <mappers>
+            <mapper resource="mybatis/user.xml"/>
+        </mappers>
+    </configuration>
