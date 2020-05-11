@@ -19,8 +19,7 @@ import java.util.Random;
 /**
  * 图形验证码生成
  */
-@Component
-public class CodeUtil {
+public class ValidateCodeGenerator {
     private int width = 90;// 定义图片的width
     private int height = 20;// 定义图片的height
     private int codeCount = 4;// 定义图片上显示验证码的个数
@@ -98,4 +97,26 @@ public class CodeUtil {
         ImageCode imageCode = new ImageCode(buffImg,randomCode.toString(),60*30);
         return imageCode;
     }
+
+    /**
+     * 生成一个验证码
+     */
+    public SmsCode generateSmsCode(){
+        // 创建一个随机数生成器类
+        Random random = new Random();
+        // randomCode用于保存随机产生的验证码，以便用户登录后进行验证。
+        StringBuffer randomCode = new StringBuffer();
+        int red = 0, green = 0, blue = 0;
+
+        // 随机产生codeCount数字的验证码。
+        for (int i = 0; i < codeCount; i++) {
+            // 得到随机产生的验证码数字。
+            String code = String.valueOf(codeSequence[random.nextInt(36)]);
+            // 将产生的四个随机数组合在一起。
+            randomCode.append(code);
+        }
+        SmsCode smsCode = new SmsCode(randomCode.toString(),60*30);
+        return smsCode;
+    }
+
 }

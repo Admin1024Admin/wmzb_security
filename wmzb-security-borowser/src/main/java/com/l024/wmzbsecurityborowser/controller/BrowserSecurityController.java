@@ -1,17 +1,14 @@
 package com.l024.wmzbsecurityborowser.controller;
 
-import com.l024.wmzbsecurityborowser.support.SimpleResponse;
 import com.l024.wmzbsecuritycore.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -66,5 +63,13 @@ public class BrowserSecurityController {
             System.out.println("引发跳转的url:"+targetUrl);
             redirectStrategy.sendRedirect(request,response,targetUrl);
         }
+    }
+
+    /**
+     * 短信验证码登录
+     */
+    @PostMapping("/authentication/mobile")
+    public void smsLogin(){
+        System.out.println("手机验证码登录.....");
     }
 }

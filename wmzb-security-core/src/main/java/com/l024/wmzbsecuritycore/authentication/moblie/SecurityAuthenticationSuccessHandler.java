@@ -1,18 +1,11 @@
-package com.l024.wmzbsecurityborowser.security;
+package com.l024.wmzbsecuritycore.authentication.moblie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.l024.wmzbsecuritycore.properties.LoginType;
 import com.l024.wmzbsecuritycore.properties.SecurityProperties;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.RedirectStrategy;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.RequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;

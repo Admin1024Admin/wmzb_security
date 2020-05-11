@@ -1,7 +1,10 @@
-package com.l024.wmzbsecurityborowser.support;
+package com.l024.wmzbsecuritycore.support;
 
 import java.io.Serializable;
 
+/**
+ * Response数据返回实体类
+ */
 public class SimpleResponse implements Serializable {
 
     private String code;

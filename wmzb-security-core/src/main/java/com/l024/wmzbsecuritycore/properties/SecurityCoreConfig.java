@@ -12,6 +12,6 @@ import org.springframework.context.annotation.Configuration;
  * 使用 @ConfigurationProperties 注解的类生效。
  */
 @Configuration
-@EnableConfigurationProperties(SecurityProperties.class)
+@EnableConfigurationProperties(value = {SecurityProperties.class})
 public class SecurityCoreConfig {
 }

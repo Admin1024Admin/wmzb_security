@@ -1,13 +1,12 @@
-package com.l024.wmzbsecurityborowser.security;
+package com.l024.wmzbsecuritycore.authentication.moblie;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.l024.wmzbsecurityborowser.support.SimpleResponse;
 import com.l024.wmzbsecuritycore.properties.LoginType;
 import com.l024.wmzbsecuritycore.properties.SecurityProperties;
+import com.l024.wmzbsecuritycore.support.SimpleResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 

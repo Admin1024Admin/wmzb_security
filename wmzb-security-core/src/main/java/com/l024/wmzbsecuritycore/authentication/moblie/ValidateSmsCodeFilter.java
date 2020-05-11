@@ -1,6 +1,8 @@
-package com.l024.wmzbsecuritycore.validate.code;
+package com.l024.wmzbsecuritycore.authentication.moblie;
 
 import com.l024.wmzbsecuritycore.exception.ValidateCodeException;
+import com.l024.wmzbsecuritycore.validate.code.SmsCode;
+import com.l024.wmzbsecuritycore.validate.code.ValidateImageCodeController;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
@@ -18,10 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 验证码过滤器  OncePerRequestFilter保证过滤器只调用一次
+ * 短信验证码过滤器  OncePerRequestFilter保证过滤器只调用一次
  */
 @Component
-public class ValidateCodeFilter extends OncePerRequestFilter {
+public class ValidateSmsCodeFilter extends OncePerRequestFilter {
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
 
@@ -37,7 +39,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
          * 2.从session取出验证码与用户传递比较
          *3.
          */
-        if(StringUtils.equalsIgnoreCase("/authentication/from",request.getRequestURI())
+        if(StringUtils.equalsIgnoreCase("/authentication/mobile",request.getRequestURI())
             &&StringUtils.equalsIgnoreCase(request.getMethod(),"POST")){
             try {
                 validate(new ServletWebRequest(request));
@@ -56,8 +58,8 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
      * @param request
      */
     private void validate(ServletWebRequest request) throws ServletRequestBindingException {
-        ImageCode codeInSession = (ImageCode)sessionStrategy.getAttribute(request,ValidateImageCodeController.SESSION_KEY);
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),"imageCode");
+        SmsCode codeInSession = (SmsCode)sessionStrategy.getAttribute(request,ValidateImageCodeController.SESSION_SMS_CODE_KEY);
+        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(),"smsCode");
         if(StringUtils.isBlank(codeInRequest)){
             throw new ValidateCodeException("验证码不可为空");
         }
@@ -65,13 +67,13 @@ public class ValidateCodeFilter extends OncePerRequestFilter {
             throw new ValidateCodeException("验证码不存在");
         }
         if(codeInSession.isExpried()){
-            sessionStrategy.removeAttribute(request,ValidateImageCodeController.SESSION_KEY);
+            sessionStrategy.removeAttribute(request,ValidateImageCodeController.SESSION_SMS_CODE_KEY);
             throw new ValidateCodeException("验证码已过期");
         }
         if(!StringUtils.equalsIgnoreCase(codeInSession.getCode(),codeInRequest)){
             throw new ValidateCodeException("验证码输入错误");
         }
         //移除验证码
-        sessionStrategy.removeAttribute(request,ValidateImageCodeController.SESSION_KEY);
+        sessionStrategy.removeAttribute(request,ValidateImageCodeController.SESSION_SMS_CODE_KEY);
     }
 }

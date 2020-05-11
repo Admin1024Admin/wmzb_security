@@ -6,12 +6,14 @@ import org.springframework.stereotype.Component;
 
 /**
  * security相关配置 读取配置类中的 wmzb.security注入
+ * 我们为属性配置错误的值时，而又不希望 Spring Boot 应用启动失败，
+ * 我们可以设置 ignoreInvalidFields 属性为 true
  */
-@ConfigurationProperties(prefix = "wmzb.security")
+@ConfigurationProperties(prefix = "wmzb.security",ignoreInvalidFields = true)
 public class SecurityProperties {
 
-    BrowserProperties browser = new BrowserProperties();
-    ValidateCodeProperties code = new ValidateCodeProperties();
+    private BrowserProperties browser = new BrowserProperties();
+    private ValidateCodeProperties code = new ValidateCodeProperties();
 
     public ValidateCodeProperties getCode() {
         return code;
