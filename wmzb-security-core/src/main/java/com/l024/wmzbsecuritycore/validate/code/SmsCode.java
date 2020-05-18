@@ -1,6 +1,6 @@
 package com.l024.wmzbsecuritycore.validate.code;
 
-import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -8,7 +8,7 @@ import java.time.ZoneId;
 /**
  * 验证码实体类
  */
-public class SmsCode {
+public class SmsCode implements Serializable {
     private String code;
     private LocalDateTime expireTime;
 

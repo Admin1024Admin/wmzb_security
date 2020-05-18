@@ -1,16 +1,15 @@
 package com.l024.wmzbsecuritycore.validate.code;
 
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 /**
  * 图形验证码实体类
  */
-public class ImageCode {
+public class ImageCode implements Serializable {
     private BufferedImage image;
     private String code;
     private LocalDateTime expireTime;
@@ -21,6 +20,13 @@ public class ImageCode {
         this.code = code;
         //当前时间+秒数
         this.expireTime = LocalDateTime.now().plusSeconds(send);
+    }
+
+    //过期时间+秒
+    public ImageCode(String code, LocalDateTime localDateTime) {
+        this.code = code;
+        //当前时间+秒数
+        this.expireTime = localDateTime;
     }
 
     public BufferedImage getImage() {

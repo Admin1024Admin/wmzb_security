@@ -1,5 +1,6 @@
 package com.l024.wmzbsecuritycore.validate.code;
 
+
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Controller;
@@ -26,8 +27,9 @@ public class ValidateImageCodeController {
     public void createCode(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //创建图形验证码
         ImageCode imageCode = new ValidateCodeGenerator().generateCodeAndPic();
+        ImageCode code = new ImageCode(imageCode.getCode(),imageCode.getExpireTime());
         //存入session
-        sessionStrategy.setAttribute(new ServletWebRequest(request),SESSION_KEY,imageCode);
+        sessionStrategy.setAttribute(new ServletWebRequest(request),SESSION_KEY,code);
         //将图片返回
         ImageIO.write(imageCode.getImage(),"JPEG",response.getOutputStream());
     }

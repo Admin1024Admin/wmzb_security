@@ -25,12 +25,5 @@
             <artifactId>wmzb-security-core</artifactId>
             <version>${security.core.version}</version>
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.springframework.session/spring-session -->
-        <dependency>
-            <groupId>org.springframework.session</groupId>
-            <artifactId>spring-session</artifactId>
-            <version>1.3.5.RELEASE</version>
-        </dependency>
     </dependencies>
 </project>

@@ -9,11 +9,22 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
+import org.springframework.security.web.savedrequest.RequestCache;
+import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +36,12 @@ import java.util.concurrent.Callable;
 @Api(value = "用户相关controller")
 @RestController
 public class UserController {
+
+
+    //request缓存
+    private RequestCache requestCache = new HttpSessionRequestCache();
+    //重定向
+    private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @GetMapping("/user")
     @JsonView(User.UserSimpleView.class)
@@ -94,5 +111,36 @@ public class UserController {
         response.setHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
         InputStream inputStream = new FileInputStream(new File("D:/"+filename));
         IOUtils.copy(inputStream,response.getOutputStream(),1024);
+    }
+
+    /**
+     * 访问html直接跳转到html
+     * 2.访问其他请求则直接提示非法请求
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
+    @GetMapping("/authentication/require")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public void authentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        SavedRequest savedRequest = requestCache.getRequest(request,response);
+        System.out.println("跳转页面");
+        if(savedRequest!=null){
+            String targetUrl = savedRequest.getRedirectUrl();
+            System.out.println("引发跳转的url:"+targetUrl);
+            if(StringUtils.endsWithIgnoreCase(targetUrl,".html")){
+                redirectStrategy.sendRedirect(request,response,"/login.html");
+            }
+        }
+        redirectStrategy.sendRedirect(request,response,"/login.html");
+
+//        return new SimpleResponse("401","访问服务需要身份认证，请引导到登录页面","http://127.0.0.1:9999/login.html");
+    }
+
+    @GetMapping("/getcode")
+    @ResponseBody
+    public String getCode(){
+        return "xxx";
     }
 }

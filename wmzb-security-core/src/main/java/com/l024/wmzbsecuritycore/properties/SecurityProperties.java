@@ -1,8 +1,6 @@
 package com.l024.wmzbsecuritycore.properties;
 
-import com.l024.wmzbsecuritycore.validate.code.ValidateCodeFilter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.stereotype.Component;
 
 /**
  * security相关配置 读取配置类中的 wmzb.security注入
@@ -14,6 +12,15 @@ public class SecurityProperties {
 
     private BrowserProperties browser = new BrowserProperties();
     private ValidateCodeProperties code = new ValidateCodeProperties();
+    private SocialProperties social = new SocialProperties();
+
+    public SocialProperties getSocial() {
+        return social;
+    }
+
+    public void setSocial(SocialProperties social) {
+        this.social = social;
+    }
 
     public ValidateCodeProperties getCode() {
         return code;

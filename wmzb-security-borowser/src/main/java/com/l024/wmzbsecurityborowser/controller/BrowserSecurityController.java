@@ -1,6 +1,7 @@
 package com.l024.wmzbsecurityborowser.controller;
 
 import com.l024.wmzbsecuritycore.properties.SecurityProperties;
+import com.l024.wmzbsecuritycore.support.SimpleResponse;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,16 +10,17 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.savedrequest.SavedRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@RestController
+@Controller
 public class BrowserSecurityController {
 
 //    @Value("${wmzb.security.browser.loginPage}")
@@ -71,5 +73,18 @@ public class BrowserSecurityController {
     @PostMapping("/authentication/mobile")
     public void smsLogin(){
         System.out.println("手机验证码登录.....");
+    }
+
+    @GetMapping("/session/invalid")
+    @ResponseBody
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+    public SimpleResponse sessionInvalid(){
+        return new SimpleResponse("401","session过期,请重新登录");
+    }
+
+    @GetMapping("/logoutSuccess")
+    public String logout(){
+        System.out.println("退出登录");
+        return "logout";
     }
 }

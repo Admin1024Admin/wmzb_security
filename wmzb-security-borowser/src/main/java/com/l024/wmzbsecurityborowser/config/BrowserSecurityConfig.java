@@ -1,6 +1,7 @@
 package com.l024.wmzbsecurityborowser.config;
 
 import com.l024.wmzbsecurityborowser.security.MyUserDetailsService;
+import com.l024.wmzbsecurityborowser.session.WmzbExpiredSessionStrategy;
 import com.l024.wmzbsecuritycore.authentication.moblie.SecurityAuthenticationFailureHandler;
 import com.l024.wmzbsecuritycore.authentication.moblie.SecurityAuthenticationSuccessHandler;
 import com.l024.wmzbsecuritycore.authentication.moblie.SmsCodeAuthenticationSecurityConfig;
@@ -21,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -55,6 +57,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired
+    private SpringSocialConfigurer springSocialConfigurer;
+
     //短信验证配置类
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
@@ -82,7 +87,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
              //自定义过滤器 在UsernamePasswordAuthenticationFilter之前执行，
             .addFilterBefore(validateSmsCodeFilter, UsernamePasswordAuthenticationFilter.class)
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-            .formLogin()// 定义当需要用户登录时候，转到的登录页面。
+            .apply(springSocialConfigurer)
+                .and()
+                .formLogin()// 定义当需要用户登录时候，转到的登录页面。
             .loginPage("/authentication/require")//自定义登录
             .loginProcessingUrl("/authentication/from") //登录提交请求（默认）
                 .successForwardUrl("/login/success")
@@ -94,8 +101,22 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter {
             .tokenValiditySeconds(securityProperties.getBrowser().getRememberMeSeconds())//设置过期时间
             .userDetailsService(userDetailsService)
             .and()
+                //处理session过期之后跳转的地址
+                .sessionManagement()
+                .invalidSessionUrl("/session/invalid")
+                //最大允许多少设备使用session
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(true)//第一个账号登录成功后第二个账号无法登录
+                //session只能允许一台设置登录。另外一台登录后触发session过期并跳转的执行方法
+                .expiredSessionStrategy(new WmzbExpiredSessionStrategy())
+                .and()
+                .and()
+                .logout()
+                .logoutUrl("/signOut")//配置退出的访问url
+                .logoutSuccessUrl("/logoutSuccess")//退出成功跳转的页面
+                .and()
             .authorizeRequests()// 定义哪些URL需要被保护、哪些不需要被保护
-                .antMatchers("/authentication/require","/code/*","/authentication/mobile")
+                .antMatchers("/authentication/require","/code/*","/authentication/mobile","/auth/*","/session/invalid","/signOut","/logoutSuccess","/oauth/*")
                 .permitAll()
             .anyRequest() // 任何请求,登录后可以访问
             .authenticated()

@@ -20,9 +20,15 @@
     </properties>
 
     <dependencies>
+<!--        <dependency>-->
+<!--            <groupId>com.l024</groupId>-->
+<!--            <artifactId>wmzb-security-borowser</artifactId>-->
+<!--            <version>${security.borowser.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.l024</groupId>
-            <artifactId>wmzb-security-borowser</artifactId>
+            <artifactId>wmzb-security-app</artifactId>
             <version>${security.borowser.version}</version>
         </dependency>
 
